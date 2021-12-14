@@ -1,5 +1,5 @@
 const passport = require("passport");
-const CLIENT_URL = "http://localhost:3000/";
+const CLIENT_URL = process.env.CLIENT_URL
 
 module.exports = function (app) {
     var auth = require("../controllers/auth.controller.js");
@@ -11,11 +11,11 @@ module.exports = function (app) {
     // app.put("/api/post", posts.updatePost);
     // app.delete("/api/post/:id", posts.deletePost);
 
-    app.get("/login/success", auth.loginSuccess);
-    app.get("/login/failed", auth.loginFailed);
-    app.get("/logout", auth.logout);
-    app.get("/auth/google", auth.google);
-    app.get("auth/google/callback", auth.callback);
+    app.get("/auth/login/success", auth.loginSuccess);
+    // app.get("/login/failed", auth.loginFailed);
+    // app.get("/logout", auth.logout);
+    // app.get("/auth/google", passport.authenticate("google", { scope: ["profile"] }));
+    // app.get("auth/google/callback", auth.callback);
     // app.get("/login/success", (req, res) => {
     //     if (req.user) {
     //       res.status(200).json({

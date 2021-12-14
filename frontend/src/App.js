@@ -13,12 +13,13 @@ const App = () => {
     const getUser = () => {
       fetch("http://localhost:5000/auth/login/success", {
         method: "GET",
-        credentials: "include",
+        mode: "cors",
+        // credentials: "omit",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          "Access-Control-Allow-Credentials": '*',
         },
+        redirect: 'follow',
       })
         .then((response) => {
           if (response.status === 200) return response.json();

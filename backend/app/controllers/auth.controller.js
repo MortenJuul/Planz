@@ -2,7 +2,7 @@
 // mongoose.set("useFindAndModify", false);
 // const User = mongoose.model("User");
 const passport = require("passport");
-const CLIENT_URL = "http://localhost:3000/";
+const CLIENT_URL = process.env.CLIENT_URL
 
 
 exports.loginSuccess = (req, res) => {
@@ -14,6 +14,11 @@ exports.loginSuccess = (req, res) => {
         //   cookies: req.cookies
       });
     }
+  else {
+    res.status(401).json({
+      success: false
+    })
+  }
 };
 
 exports.loginFailed = (req, res) => {

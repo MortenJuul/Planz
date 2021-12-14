@@ -1,11 +1,15 @@
 const router = require("express").Router();
 const passport = require("passport");
-const cors = require('cors');
-router.use(cors())
+// const cors = require('cors');
+// var corsOptions = {
+//   origin: '*',
+//   optionsSuccessStatus: 200,
+// }
+// router.use(cors(corsOptions));
 
-const CLIENT_URL = "http://localhost:3000/";
+const CLIENT_URL = process.env.CLIENT_URL
 
-router.all('*', cors());
+// router.all('*', cors());
 
 router.get("/login/success", (req, res) => {
   if (req.user) {
@@ -15,6 +19,11 @@ router.get("/login/success", (req, res) => {
       user: req.user,
       //   cookies: req.cookies
     });
+  }
+  else {
+    res.status(401).json({
+      success: false
+    })
   }
 });
 
