@@ -1,24 +1,21 @@
-const path = require('path')
-const express = require('express')
-const mongoose = require('mongoose')
-const dotenv = require('dotenv')
-const morgan = require('morgan')
-// const exphbs = require('express-handlebars')
-const methodOverride = require('method-override')
-const passport = require('passport')
-const session = require('express-session')
-// const MongoStore = require('connect-mongo')(session)
-const connectDB = require('./app/config/db')
-const cors = require('cors')
+const path = require('path');
+const express = require('express');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const morgan = require('morgan');
+// const exphbs = require('express-handlebars');
+const methodOverride = require('method-override');
+const passport = require('passport');
+// const session = require('express-session');
+// const MongoStore = require('connect-mongo')(session);
+const connectDB = require('./app/config/db');
+const cors = require('cors');
+const cookieSession = require('cookie-session');
 
 const app = express()
 
 // Use Cors
-var corsOptions = {
-  origin: '*',
-  optionsSuccessStatus: 200,
-}
-app.use(cors(corsOptions))
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 // Load config
 dotenv.config({ path: './app/config/config.env' })
@@ -51,14 +48,19 @@ if (process.env.NODE_ENV === 'development') {
 
 
 // Sessions
-app.use(
-  session({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: false
-    // ,store: new MongoStore({ mongooseConnection: mongoose.connection }),
-  })
-)
+// app.use(
+//   session({
+//     secret: 'keyboard cat',
+//     resave: false,
+//     saveUninitialized: false
+//     // ,store: new MongoStore({ mongooseConnection: mongoose.connection }),
+//   })
+// )
+
+app.use(cookieSession({
+  maxAge: 24 * 60 * 60 * 1000,
+  keys: [process.env.COOKIE_KEY]
+}))
 
 // Passport middleware
 app.use(passport.initialize())

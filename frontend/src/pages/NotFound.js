@@ -4,11 +4,12 @@ import {
   Container,
   Typography
 } from '@material-ui/core';
+import NotFoundIMG from '../icons/notfoundIMG';
 
 const NotFound = () => (
   <>
     <Helmet>
-      <title>404 | Material Kit</title>
+      <title>404 | Planz</title>
     </Helmet>
     <Box
       sx={{
@@ -36,16 +37,7 @@ const NotFound = () => (
           Whichever it is, try using the navigation
         </Typography>
         <Box sx={{ textAlign: 'center' }}>
-          <img
-            alt="Under development"
-            src="/static/images/undraw_page_not_found_su7k.svg"
-            style={{
-              marginTop: 50,
-              display: 'inline-block',
-              maxWidth: '100%',
-              width: 560
-            }}
-          />
+          <NotFoundIMG />
         </Box>
       </Container>
     </Box>
