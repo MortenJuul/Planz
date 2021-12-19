@@ -22,7 +22,7 @@ module.exports = function (passport) {
         };
 
         try {
-          const user = await User.findOne({ userId: profile.id });
+          let user = await User.findOne({ userId: profile.id });
 
           if (user) {
             done(null, user);

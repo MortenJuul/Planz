@@ -40,6 +40,10 @@ const useStyles = makeStyles(() => createStyles({
     },
     '.mainLogo': {
       height: '40px'
+    },
+    '.datepicker': {
+      width: '50%',
+      transform: 'scale(0.5)'
     }
   }
 }));

@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { useEffect, useState } from "react";
+import React from 'react';
+import { Link as RouterLink, useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
 import {
   Avatar,
   Box,
@@ -8,8 +9,8 @@ import {
   Drawer,
   Hidden,
   List,
-  Typography
-} from '@material-ui/core';
+  Typography,
+} from "@material-ui/core";
 import {
   AlertCircle as AlertCircleIcon,
   BarChart as BarChartIcon,
@@ -18,36 +19,42 @@ import {
   ShoppingBag as ShoppingBagIcon,
   User as UserIcon,
   UserPlus as UserPlusIcon,
-  Users as UsersIcon
-} from 'react-feather';
-import NavItem from './NavItem';
-import CalendarViewDayIcon from '@mui/icons-material/CalendarViewDay';
+  Users as UsersIcon,
+} from "react-feather";
+import NavItem from "./NavItem";
+import CalendarViewDayIcon from "@mui/icons-material/CalendarViewDay";
+import AddSpeedDial from "./AddSpeedDial";
+import TextField from "@mui/material/TextField";
+import AdapterMoment from "@mui/lab/AdapterMoment";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import StaticDatePicker from "@mui/lab/StaticDatePicker";
 
 const user = {
-  avatar: '/static/images/avatars/avatar_6.png',
-  jobTitle: 'Senior Developer',
-  name: 'Katarina Smith'
+  avatar: "/static/images/avatars/avatar_6.png",
+  jobTitle: "Senior Developer",
+  name: "Katarina Smith",
 };
 
 const items = [
   {
-    href: '/app/planner',
+    href: "/",
     icon: CalendarViewDayIcon,
-    title: 'Planner'
+    title: "Planner",
   },
   {
-    href: '/app/account',
+    href: "/account",
     icon: UserIcon,
-    title: 'Account'
+    title: "Account",
   },
   {
-    href: '/app/settings',
+    href: "/settings",
     icon: SettingsIcon,
-    title: 'Settings'
-  }
+    title: "Settings",
+  },
 ];
 
 const DashboardSidebar = ({ onMobileClose, openMobile }) => {
+  const [value, setValue] = React.useState(new Date());
   const location = useLocation();
 
   useEffect(() => {
@@ -59,39 +66,33 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
   const content = (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%'
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
       }}
     >
       <Box
         sx={{
-          alignItems: 'center',
-          display: 'flex',
-          flexDirection: 'column',
-          p: 2
+          alignItems: "center",
+          display: "flex",
+          flexDirection: "column",
+          p: 2,
         }}
       >
         <Avatar
           component={RouterLink}
           src={user.avatar}
           sx={{
-            cursor: 'pointer',
+            cursor: "pointer",
             width: 64,
-            height: 64
+            height: 64,
           }}
-          to="/app/account"
+          to="/account"
         />
-        <Typography
-          color="textPrimary"
-          variant="h5"
-        >
+        <Typography color="textPrimary" variant="h5">
           {user.name}
         </Typography>
-        <Typography
-          color="textSecondary"
-          variant="body2"
-        >
+        <Typography color="textSecondary" variant="body2">
           {user.jobTitle}
         </Typography>
       </Box>
@@ -108,6 +109,22 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           ))}
         </List>
       </Box>
+      {location.pathname == '/' &&
+        <Box>
+        <Divider />
+        <LocalizationProvider dateAdapter={AdapterMoment} >
+          <StaticDatePicker
+            // className="datepicker"
+            displayStaticWrapperAs="desktop"           
+            openTo="day"
+            value={value}
+            onChange={(newValue) => {
+              setValue(newValue);
+            }}
+            renderInput={(params) => <TextField {...params} />}
+          />
+        </LocalizationProvider>
+        </Box>}
       <Box sx={{ flexGrow: 1 }} />
     </Box>
   );
@@ -122,8 +139,8 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           variant="temporary"
           PaperProps={{
             sx: {
-              width: 256
-            }
+              width: 256,
+            },
           }}
         >
           {content}
@@ -138,11 +155,12 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
             sx: {
               width: 256,
               top: 64,
-              height: 'calc(100% - 64px)'
-            }
+              height: "calc(100% - 64px)",
+            },
           }}
         >
           {content}
+          <AddSpeedDial />
         </Drawer>
       </Hidden>
     </>
@@ -151,13 +169,12 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
 
 DashboardSidebar.propTypes = {
   onMobileClose: PropTypes.func,
-  openMobile: PropTypes.bool
+  openMobile: PropTypes.bool,
 };
 
 DashboardSidebar.defaultProps = {
-  onMobileClose: () => {
-  },
-  openMobile: false
+  onMobileClose: () => {},
+  openMobile: false,
 };
 
 export default DashboardSidebar;

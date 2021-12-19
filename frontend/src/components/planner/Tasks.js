@@ -36,7 +36,10 @@ export default function Tasks(props) {
 
   return (
     <Card {...props}>
+      <Grid>
       <CardHeader subheader="A One at a time now..." title="Tasks" />
+      <Button />
+      </Grid>
       <CardContent>
         <Grid container spacing={3}>
           <Grid
@@ -66,12 +69,12 @@ export default function Tasks(props) {
                     disablePadding
                   >
                     <ListItemButton>
-                      <ListItemAvatar>
+                      {/* <ListItemAvatar>
                         <Avatar
                           alt={`Avatar n°${value + 1}`}
                           src={`/static/images/avatar/${value + 1}.jpg`}
                         />
-                      </ListItemAvatar>
+                      </ListItemAvatar> */}
                       <ListItemText
                         id={labelId}
                         primary={`Line item ${value + 1}`}

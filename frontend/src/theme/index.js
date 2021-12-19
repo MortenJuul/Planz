@@ -4,7 +4,8 @@ const theme = createTheme({
   palette: {
     background: {
       default: '#111111',
-      paper: '#373737'
+      paper: '#373737',
+      card: '#474747'
     },
     primary: {
       contrastText: '#ffffff',

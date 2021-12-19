@@ -2,16 +2,17 @@ const passport = require("passport");
 const CLIENT_URL = process.env.CLIENT_URL
 
 module.exports = function (app) {
-    var auth = require("../controllers/auth.controller.js");
+    // var auth = require("../controllers/auth.controller.js");
     // var user = require("../controllers/user.controller.js");
+    var task = require("../controllers/Task.controller.js");
   
-    // app.post("/api/post", posts.createPost);
+    app.post("/task/post", task.createTask);
     // app.get("/api/post/:id", posts.getPost);
-    // app.get("/api/posts", posts.posts);
+    app.get("/tasks", task.getTasks);
     // app.put("/api/post", posts.updatePost);
     // app.delete("/api/post/:id", posts.deletePost);
 
-    app.get("/auth/login/success", auth.loginSuccess);
+    // app.get("/auth/login/success", auth.loginSuccess);
     // app.get("/login/failed", auth.loginFailed);
     // app.get("/logout", auth.logout);
     // app.get("/auth/google", passport.authenticate("google", { scope: ["profile"] }));
