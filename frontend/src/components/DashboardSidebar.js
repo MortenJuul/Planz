@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import React from 'react';
+// import React from "react";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import {
@@ -12,14 +12,8 @@ import {
   Typography,
 } from "@material-ui/core";
 import {
-  AlertCircle as AlertCircleIcon,
-  BarChart as BarChartIcon,
-  Lock as LockIcon,
   Settings as SettingsIcon,
-  ShoppingBag as ShoppingBagIcon,
   User as UserIcon,
-  UserPlus as UserPlusIcon,
-  Users as UsersIcon,
 } from "react-feather";
 import NavItem from "./NavItem";
 import CalendarViewDayIcon from "@mui/icons-material/CalendarViewDay";
@@ -28,12 +22,7 @@ import TextField from "@mui/material/TextField";
 import AdapterMoment from "@mui/lab/AdapterMoment";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import StaticDatePicker from "@mui/lab/StaticDatePicker";
-
-const user = {
-  avatar: "/static/images/avatars/avatar_6.png",
-  jobTitle: "Senior Developer",
-  name: "Katarina Smith",
-};
+import moment from "moment";
 
 const items = [
   {
@@ -53,8 +42,8 @@ const items = [
   },
 ];
 
-const DashboardSidebar = ({ onMobileClose, openMobile }) => {
-  const [value, setValue] = React.useState(new Date());
+const DashboardSidebar = ({ onMobileClose, openMobile, user, updateDate }) => {
+  const [value, setValue] = useState(new Date());
   const location = useLocation();
 
   useEffect(() => {
@@ -81,7 +70,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
       >
         <Avatar
           component={RouterLink}
-          src={user.avatar}
+          src={user.image}
           sx={{
             cursor: "pointer",
             width: 64,
@@ -89,11 +78,11 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           }}
           to="/account"
         />
-        <Typography color="textPrimary" variant="h5">
-          {user.name}
+        <Typography color="textPrimary" variant="h5" sx={{py: 1}}>
+          {user.firstName}
         </Typography>
         <Typography color="textSecondary" variant="body2">
-          {user.jobTitle}
+          Member since: {moment(user.createdAt).format('MMM YYYY')}
         </Typography>
       </Box>
       <Divider />
@@ -109,22 +98,23 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           ))}
         </List>
       </Box>
-      {location.pathname == '/' &&
+      {location.pathname == "/" && (
         <Box>
-        <Divider />
-        <LocalizationProvider dateAdapter={AdapterMoment} >
-          <StaticDatePicker
-            // className="datepicker"
-            displayStaticWrapperAs="desktop"           
-            openTo="day"
-            value={value}
-            onChange={(newValue) => {
-              setValue(newValue);
-            }}
-            renderInput={(params) => <TextField {...params} />}
-          />
-        </LocalizationProvider>
-        </Box>}
+          <Divider />
+          <LocalizationProvider dateAdapter={AdapterMoment}>
+            <StaticDatePicker
+              // className="datepicker"
+              displayStaticWrapperAs="desktop"
+              openTo="day"
+              value={value}
+              onChange={(newValue) => {
+                updateDate(moment(newValue).format());
+              }}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
+        </Box>
+      )}
       <Box sx={{ flexGrow: 1 }} />
     </Box>
   );

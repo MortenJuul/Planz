@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { styled } from '@material-ui/core/styles';
 import DashboardNavbar from './DashboardNavbar';
 import DashboardSidebar from './DashboardSidebar';
+import moment from 'moment';
 
 const DashboardLayoutRoot = styled('div')(
   ({ theme }) => ({
@@ -38,8 +39,13 @@ const DashboardLayoutContent = styled('div')({
   overflow: 'auto'
 });
 
-const DashboardLayout = () => {
+const DashboardLayout = (props) => {
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(moment().format());
+  // console.log(selectedDate)
+  // const updateDate = (newDate = moment().format()) => {
+  //   // setSelectedDate(newDate)
+  // }
 
   return (
     <DashboardLayoutRoot>
@@ -47,11 +53,13 @@ const DashboardLayout = () => {
       <DashboardSidebar
         onMobileClose={() => setMobileNavOpen(false)}
         openMobile={isMobileNavOpen}
+        user={props.user}
+        updateDate={setSelectedDate}
       />
       <DashboardLayoutWrapper>
         <DashboardLayoutContainer>
           <DashboardLayoutContent>
-            <Outlet />
+            <Outlet context={selectedDate}/>
           </DashboardLayoutContent>
         </DashboardLayoutContainer>
       </DashboardLayoutWrapper>

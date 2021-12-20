@@ -1,20 +1,16 @@
 import * as React from "react";
-import {
-  Avatar,
-  Box,
+import {  
   Card,
   CardContent,
-  CardActions,
   Grid,
   Typography,
-  Button,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
   Checkbox,
-  IconButton,
+  CardHeader,
 } from "@material-ui/core";
 
 export default function Routines() {
@@ -36,6 +32,7 @@ export default function Routines() {
 
   return (
     <Card sx={{ minWidth: 275 }}>
+      <CardHeader title="Schedule" sx={{paddingBottom: 0}}/>
       <CardContent>
         <Grid
           container
@@ -52,11 +49,6 @@ export default function Routines() {
                 return (
                   <ListItem
                     key={value}
-                    // secondaryAction={
-                    //   <IconButton edge="end" aria-label="comments">
-                    //     <CommentIcon />
-                    //   </IconButton>
-                    // }
                     disablePadding
                   >
                     <ListItemButton

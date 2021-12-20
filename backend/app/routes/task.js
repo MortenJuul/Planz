@@ -11,5 +11,6 @@ const task = require("../controllers/Task.controller.js");
 // });
 
 router.post("/post", task.createTask);
+router.get("/", task.getTasks)
 
 module.exports = router

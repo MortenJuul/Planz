@@ -5,21 +5,21 @@ import {
   Card,
   CardContent,
   CardHeader,
-  Divider,
   Grid,
-  useTheme,
-  colors,
 } from "@material-ui/core";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Checkbox from "@mui/material/Checkbox";
-import Avatar from "@mui/material/Avatar";
+import axios from "axios";
+import moment from "moment";
+import { useOutletContext } from "react-router";
 
 export default function Tasks(props) {
   const [checked, setChecked] = React.useState([1]);
+  let selectedDate = useOutletContext();
+  console.log(selectedDate)
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -34,10 +34,17 @@ export default function Tasks(props) {
     setChecked(newChecked);
   };
 
+  const getTasks = async () => {
+    let userId = 'test'
+    axios.get('http://localhost:5000/task', { params: {userId: userId, date: moment(selectedDate).startOf('day').toDate()}}) //, date: {$gte: moment().startOf('day').format(), $lte: moment().endOf('day').format()}}
+      .then((res) => console.log(res))
+  }
+  getTasks()
+
   return (
-    <Card {...props}>
+    <Card {...props} style={{ minHeight: 200 }}>
       <Grid>
-      <CardHeader subheader="A One at a time now..." title="Tasks" />
+      <CardHeader title="Tasks" sx={{ paddingBottom: 0}} />
       <Button />
       </Grid>
       <CardContent>
@@ -46,14 +53,14 @@ export default function Tasks(props) {
             item
             md={12}
             xs={12}
-            style={{ minHeight: 200, maxHeight: 300, overflow: "auto" }}
+            style={{ maxHeight: 280, overflow: "auto", paddingBottom: 2 }}
           >
             <List
               //   fullWidth
               dense
               sx={{ width: "100%", bgcolor: "background.paper" }}
             >
-              {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((value) => {
+              {[ 1, 2, 3, 4, 5, 6, 7, 8].map((value) => {
                 const labelId = `checkbox-list-secondary-label-${value}`;
                 return (
                   <ListItem
@@ -69,12 +76,6 @@ export default function Tasks(props) {
                     disablePadding
                   >
                     <ListItemButton>
-                      {/* <ListItemAvatar>
-                        <Avatar
-                          alt={`Avatar n°${value + 1}`}
-                          src={`/static/images/avatar/${value + 1}.jpg`}
-                        />
-                      </ListItemAvatar> */}
                       <ListItemText
                         id={labelId}
                         primary={`Line item ${value + 1}`}

@@ -27,12 +27,7 @@ const states = [
 
 const NotesInput = (props) => {
   const [values, setValues] = useState({
-    firstName: "Katarina",
-    lastName: "Smith",
-    email: "demo@devias.io",
-    phone: "",
-    state: "Alabama",
-    country: "USA",
+    notes: "",
   });
 
   const handleChange = (event) => {
@@ -78,7 +73,7 @@ const NotesInput = (props) => {
           }}
         >
           <Button color="primary" variant="contained">
-            Save details
+            Save Notes
           </Button>
         </Box>
       </Card>

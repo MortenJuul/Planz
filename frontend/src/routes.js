@@ -17,7 +17,7 @@ const routes = (user) => {
     return [
       {
         path: "/",
-        element: <DashboardLayout />,
+        element: <DashboardLayout user={user}/>,
         children: [
           { path: "/", element: <Planner /> },
           { path: "account", element: <Account /> },

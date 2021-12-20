@@ -5,6 +5,7 @@ import NotesInput from "../components/planner/NotesInput";
 import Tasks from "../components/planner/Tasks";
 import Routines from "../components/planner/Routines";
 import AddSpeedDial from "../components/AddSpeedDial";
+import Events from "../components/planner/Events";
 
 const Dashboard = () => (
   <>
@@ -22,7 +23,7 @@ const Dashboard = () => (
         <Grid container spacing={3}>
           {/* FIRST ROW */}
           <Grid item lg={8} sm={6} xl={8} xs={12}>
-            <Budget />
+            <Events />
           </Grid>
           <Grid item lg={4} sm={6} xl={4} xs={12}>
             <Routines />

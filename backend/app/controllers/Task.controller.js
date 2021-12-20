@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-const Task = mongoose.model("../models/Task.model");
+const Task = require('../models/Task.model');
+const moment = require('moment')
 
 exports.createTask = async (req, res) => {
   const task = new Task({
@@ -22,17 +23,19 @@ exports.createTask = async (req, res) => {
 };
 
 exports.getTasks = async (req, res) => {
-    // {userId: req.params.userId, date: req.params.date}
-    await Task.find()
+  console.log(req.query)
+  let start = moment(req.query.date).startOf('day').toDate()
+  let end = moment(start).endOf('day').toDate()
+    await Task.find({userId: req.query.userId, date: {$gte: start, $lt: end}})
       .select("-__v")
       .then((tasks) => {
         res.status(200).json(tasks);
       })
-      .catch((error) => {
+      .catch((err) => {
         console.log(err);
         res.status(500).json({
           message: "Error",
-          error: error,
+          error: err,
         });
       });
   };

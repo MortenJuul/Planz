@@ -36,7 +36,6 @@ export default function NewTask(props) {
   const [value, setValue] = useState(false);
   const [formValues, setFormValues] = useState(defaultValues);
   const handleInputChange = (e) => {
-      console.log(e)
     const { name, value } = e.target;
     setFormValues({
       ...formValues,
@@ -46,11 +45,15 @@ export default function NewTask(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // console.log(formValues);
-    let userId = 'test'
-    let taskValues = {...formValues, userId: userId}
-    axios.post('http://localhost:5000/task/post', taskValues)
-        .then(response => console.log(response))
+    let userId = "test";
+    let taskValues = { ...formValues, userId: userId };
+    axios
+      .post("http://localhost:5000/task/post", taskValues)
+      .then((response) => console.log(response));
   };
+  const reset = () => {
+    setFormValues(defaultValues);
+  }
 
   return (
     <div>
@@ -102,7 +105,7 @@ export default function NewTask(props) {
                     placeholder="Description"
                     multiline
                     // rows={4}
-                    value={formValues.desc}
+                    value={formValues.description}
                     onChange={handleInputChange}
                     // size="small"
                     // variant="standard"
@@ -118,21 +121,41 @@ export default function NewTask(props) {
                       id="date-input"
                       label="Select date"
                       name="date"
-                      value={formValues.Date}
-                      onChange={(newDate) => handleInputChange({target: {name: 'date', value: newDate }})}
-                      renderInput={(params) => <TextField {...params} />}
+                      value={formValues.date}
+                      onChange={(newDate) =>
+                        handleInputChange({
+                          target: { name: "date", value: newDate },
+                        })
+                      }
                       sx={{ my: 2, input: { color: "black" } }}
                       InputLabelProps={{
                         style: { color: "#000" },
                       }}
+                      renderInput={(params) => <TextField {...params} />}
                     />
                   </LocalizationProvider>
                 </Grid>
                 <Grid>
-                  <Button variant="outlined" color="error" type="cancel" sx={{m: 1}}>
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    type="reset"
+                    value="Reset"
+                    sx={{ m: 1 }}
+                    onClick={() => {
+                      props.onClose()
+                      reset()
+                    }}
+                  >
                     Cancel
                   </Button>
-                  <Button variant="outlined" color="success" type="submit" sx={{m: 1}}>
+                  <Button
+                    variant="outlined"
+                    color="success"
+                    type="submit"
+                    sx={{ m: 1 }}
+                    onClick={() => props.onClose()}
+                  >
                     Submit
                   </Button>
                 </Grid>
