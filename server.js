@@ -87,15 +87,15 @@ app.use(function (req, res, next) {
 })
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, '..', 'frontend/build')));
+app.use(express.static(path.join(__dirname, 'frontend/build')));
 
 // Routes
 // app.use('/', require('./app/routes/index'))
 app.use('/auth', require('./app/routes/auth'))
 app.use('/task', require('./app/routes/task'))
 // require("./app/routes/auth.router.js")(app);
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'frontend/build/index.html'));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend/build/index.html'));
 });
 
 
