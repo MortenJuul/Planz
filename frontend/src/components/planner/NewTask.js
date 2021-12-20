@@ -5,14 +5,14 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Form } from "formik";
 import { TextField, Grid } from "@material-ui/core";
 import { useState } from "react";
 import AdapterMoment from "@mui/lab/AdapterMoment";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import moment from "moment";
-import axios from "axios";
+import { usePlanStore } from "../../store/planContext";
+import { runInAction } from "mobx";
 
 const style = {
   position: "absolute",
@@ -35,6 +35,8 @@ const defaultValues = {
 export default function NewTask(props) {
   const [value, setValue] = useState(false);
   const [formValues, setFormValues] = useState(defaultValues);
+  const planStore = usePlanStore();
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormValues({
@@ -44,16 +46,12 @@ export default function NewTask(props) {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log(formValues);
-    let userId = "test";
-    let taskValues = { ...formValues, userId: userId };
-    axios
-      .post("http://localhost:5000/task/post", taskValues)
-      .then((response) => console.log(response));
+    let taskValues = { ...formValues, userId: planStore.user.userId };
+    runInAction(() => planStore.newTask(taskValues))
   };
   const reset = () => {
     setFormValues(defaultValues);
-  }
+  };
 
   return (
     <div>

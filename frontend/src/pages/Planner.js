@@ -1,10 +1,8 @@
 import { Helmet } from "react-helmet";
 import { Box, Container, Grid } from "@material-ui/core";
-import Budget from "../components/dashboard/Budget";
 import NotesInput from "../components/planner/NotesInput";
 import Tasks from "../components/planner/Tasks";
 import Routines from "../components/planner/Routines";
-import AddSpeedDial from "../components/AddSpeedDial";
 import Events from "../components/planner/Events";
 
 const Dashboard = () => (

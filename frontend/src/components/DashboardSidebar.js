@@ -23,6 +23,8 @@ import AdapterMoment from "@mui/lab/AdapterMoment";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import StaticDatePicker from "@mui/lab/StaticDatePicker";
 import moment from "moment";
+import { usePlanStore } from "../store/planContext";
+
 
 const items = [
   {
@@ -43,6 +45,7 @@ const items = [
 ];
 
 const DashboardSidebar = ({ onMobileClose, openMobile, user, updateDate }) => {
+  const planStore = usePlanStore();
   const [value, setValue] = useState(new Date());
   const location = useLocation();
 
@@ -106,9 +109,9 @@ const DashboardSidebar = ({ onMobileClose, openMobile, user, updateDate }) => {
               // className="datepicker"
               displayStaticWrapperAs="desktop"
               openTo="day"
-              value={value}
+              value={planStore.selectedDate}
               onChange={(newValue) => {
-                updateDate(moment(newValue).format());
+                planStore.updateDate(moment(newValue).format());
               }}
               renderInput={(params) => <TextField {...params} />}
             />

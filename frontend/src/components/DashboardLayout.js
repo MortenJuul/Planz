@@ -41,11 +41,6 @@ const DashboardLayoutContent = styled('div')({
 
 const DashboardLayout = (props) => {
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(moment().format());
-  // console.log(selectedDate)
-  // const updateDate = (newDate = moment().format()) => {
-  //   // setSelectedDate(newDate)
-  // }
 
   return (
     <DashboardLayoutRoot>
@@ -54,12 +49,11 @@ const DashboardLayout = (props) => {
         onMobileClose={() => setMobileNavOpen(false)}
         openMobile={isMobileNavOpen}
         user={props.user}
-        updateDate={setSelectedDate}
       />
       <DashboardLayoutWrapper>
         <DashboardLayoutContainer>
           <DashboardLayoutContent>
-            <Outlet context={selectedDate}/>
+            <Outlet />
           </DashboardLayoutContent>
         </DashboardLayoutContainer>
       </DashboardLayoutWrapper>

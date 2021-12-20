@@ -13,6 +13,7 @@ import Planner from "./pages/Planner";
 import Landing from "./pages/Landing";
 
 const routes = (user) => {
+  console.log("Test", user)
   if (user) {
     return [
       {
