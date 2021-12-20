@@ -18,6 +18,7 @@ import { useOutletContext } from "react-router";
 
 export default function Tasks(props) {
   const [checked, setChecked] = React.useState([1]);
+  const [tasks, setTasks] = React.useState([]);
   let selectedDate = useOutletContext();
   console.log(selectedDate)
 
@@ -38,6 +39,7 @@ export default function Tasks(props) {
     let userId = 'test'
     axios.get('http://localhost:5000/task', { params: {userId: userId, date: moment(selectedDate).startOf('day').toDate()}}) //, date: {$gte: moment().startOf('day').format(), $lte: moment().endOf('day').format()}}
       .then((res) => console.log(res))
+      .then((data) => setTasks(data))
   }
   getTasks()
 
