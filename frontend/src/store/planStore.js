@@ -10,15 +10,17 @@ class CreatePlanStore {
   userLoadStatus = "";
   taskLoadStatus = "";
   taskPostStatus = "";
+  checkStatus = "";
   tasks = [];
   events = [];
   routines = [];
   notes = [];
   user = [];
   selectedDate = moment().format();
-  
+
   constructor() {
     makeAutoObservable(this);
+    this.getTasks();
   }
 
   // setUser(i) {
@@ -27,13 +29,13 @@ class CreatePlanStore {
 
   *ssetUser() {
     try {
-      this.userLoadStatus = "pending";
+      this.userLoadStatus = "user pending";
       const response = yield axios.get(
         "http://localhost:5000/auth/login/success",
         { withCredentials: true }
       );
       this.user = response.data;
-      this.userLoadStatus = "success"
+      this.userLoadStatus = "user success";
       // .then((response) => response.json())
       // .then((data) => this.setUser("HELLO"))
       // .catch((err) => {
@@ -41,7 +43,7 @@ class CreatePlanStore {
       //   this.user = null
       // })
     } catch (err) {
-      this.userLoadStatus = "error";
+      this.userLoadStatus = "user error";
     }
   }
   addTask(text) {
@@ -60,33 +62,63 @@ class CreatePlanStore {
   }
   *getTasks() {
     try {
-      this.taskLoadStatus = "pending";
-      const response = yield axios
-      .get("http://localhost:5000/task", {
+      this.taskLoadStatus = "get pending";
+      const response = yield axios.get("http://localhost:5000/task", {
         params: {
           userId: this.user.userId,
           date: moment(this.selectedDate).startOf("day").toDate(),
         },
-      })
-      this.tasks = response.data
-      this.taskLoadStatus = "success"
+      });
+      this.tasks = response.data;
+      this.taskLoadStatus = "get success";
     } catch (err) {
-      this.taskLoadStatus = "error"
+      this.taskLoadStatus = "get error";
     }
   }
   *newTask(taskValues) {
-    try{
-      this.taskPostStatus = "pending"
-      const reponse = yield axios
-        .post("http://localhost:5000/task/post", taskValues)
-        // .then((response) => console.log(response));
+    try {
+      this.taskPostStatus = "create pending";
+      const reponse = yield axios.post(
+        "http://localhost:5000/task/post",
+        taskValues
+      );
+      this.taskPostStatus = "create success"
+      // .then((response) => console.log(response));
       this.getTasks();
-    } catch (err){
-      this.taskPostStatus = "error"
+    } catch (err) {
+      this.taskPostStatus = "create error";
     }
   }
-  checkTask(id) {
-    let t = this.tasks.filter((i) => i.id === id);
+  *updateTask(task) {
+    try {
+      // let id = this.tasks.filter((i) => i._id === task._id);
+      console.log(task);
+      this.taskPostStatus = "update pending";
+      const reponse = yield axios.put(
+        "http://localhost:5000/task/post/:" + task._id,
+        task
+      );
+      // .then((response) => console.log(response));
+      this.taskPostStatus = "update success";
+      this.getTasks();
+    } catch (err) {
+      this.taskPostStatus = "update error";
+    }
+  }
+  
+  *deleteTask(task) {
+    try {
+      // let id = this.tasks.filter((i) => i._id === task._id);
+      this.taskPostStatus = "delete pending";
+      const reponse = yield axios.delete(
+        "http://localhost:5000/task/post/" + task._id
+      );
+      // .then((response) => console.log(response));
+      this.taskPostStatus = "delete success";
+    } catch (err) {
+      this.taskPostStatus = "delete error";
+    }
+    this.getTasks();
   }
   uncheckTask(id) {}
 }
@@ -96,6 +128,7 @@ const newPlanStore = new CreatePlanStore();
 autorun(() => {
   console.log(toJS(newPlanStore.userLoadStatus));
   console.log(toJS(newPlanStore.taskLoadStatus));
+  console.log(toJS(newPlanStore.taskPostStatus));
 });
 
 export default newPlanStore;

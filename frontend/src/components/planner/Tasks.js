@@ -13,17 +13,31 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
-import axios from "axios";
 import moment from "moment";
-import { useOutletContext } from "react-router";
 import { usePlanStore } from "../../store/planContext";
-import { useObserver } from "mobx-react";
+import { observer, useObserver } from "mobx-react";
+import UpdateTask from "./UpdateTask";
+
+const defaultValues = {
+  title: "",
+  description: "",
+  date: moment().format(), //'MM-DD-YYYY'
+};
 
 export default function Tasks(props) {
   const planStore = usePlanStore();
   // planStore.getTasks();
   const [checked, setChecked] = React.useState([1]);
   const [tasks, setTasks] = React.useState();
+  const [currentTask, setCurrentTask] = React.useState(defaultValues);
+  const [openTask, setOpenTask] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpenTask(true);
+  }
+  const handleClose = () => {
+    setOpenTask(false);
+  }
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -38,7 +52,7 @@ export default function Tasks(props) {
     setChecked(newChecked);
   };
 
-  const generateTasks = () => {
+  const GenerateTasks = observer(() => {
     if (planStore.tasks) {
       return planStore.tasks.map((task) => {
         const labelId = `checkbox-list-secondary-label-${task.title}`;
@@ -55,8 +69,12 @@ export default function Tasks(props) {
             }
             disablePadding
           >
-            <ListItemButton>
-              <ListItemText id={labelId} primary={`Line item ${task.title}`} />
+            <ListItemButton onClick={() => {
+              setCurrentTask(task);
+              // console.log(task)
+              handleOpen();
+            }}>
+              <ListItemText id={labelId} primary={`${task.title}`} />
             </ListItemButton>
           </ListItem>
         );
@@ -64,9 +82,9 @@ export default function Tasks(props) {
     } else {
       return <Typography variant="h4">No tasks today... Add tasks to see them here.</Typography>;
     }
-  };
+  });
 
-  return useObserver(() => (
+  return (
     <Card {...props} style={{ minHeight: 200 }}>
       <Grid>
         <CardHeader title="Tasks" sx={{ paddingBottom: 0 }} />
@@ -85,11 +103,12 @@ export default function Tasks(props) {
               dense
               sx={{ width: "100%", bgcolor: "background.paper" }}
             >
-              {generateTasks()}
+              <GenerateTasks />
             </List>
           </Grid>
         </Grid>
+        <UpdateTask open={openTask} onClose={handleClose} currentTask={currentTask} />
       </CardContent>
     </Card>
-  ));
+  );
 }

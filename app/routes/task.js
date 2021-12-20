@@ -11,6 +11,8 @@ const task = require("../controllers/Task.controller.js");
 // });
 
 router.post("/post", task.createTask);
+router.put("/post/:id", task.updateTask)
+router.delete("/post/:id", task.deleteTask)
 router.get("/", task.getTasks)
 
 module.exports = router
