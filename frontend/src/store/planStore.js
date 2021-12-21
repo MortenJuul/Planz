@@ -59,6 +59,7 @@ class CreatePlanStore {
   updateDate(newDate) {
     this.selectedDate = newDate;
     console.log(newDate);
+    this.getTasks()
   }
   *getTasks() {
     try {

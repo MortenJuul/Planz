@@ -35,7 +35,7 @@ export default function Events() {
   // };
 
   return (
-    <Card>
+    <Card sx={{minHeight: "400px"}}>
       <CardHeader title="Schedule" sx={{paddingBottom: 0}}/>
       <CardContent>
         <Grid container spacing={1}>
@@ -49,6 +49,7 @@ export default function Events() {
               <Card sx={{ backgroundColor: "background.card" }}> 
                   <CardContent sx={{p: 0}}>
                   <CardHeader subheader="8.00 am - 11.00 am" title="Work Block 1" />
+                  
                   </CardContent>
               </Card>
           </Grid>

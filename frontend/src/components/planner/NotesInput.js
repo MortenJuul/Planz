@@ -39,7 +39,7 @@ const NotesInput = (props) => {
 
   return (
     <form autoComplete="off" noValidate {...props}>
-      <Card>
+      <Card sx={{minHeight: "400px"}}>
         <CardHeader subheader="A place to reflect and remember" title="Notes" />
         {/* <Divider /> */}
         <CardContent>
@@ -48,18 +48,19 @@ const NotesInput = (props) => {
               item
               md={12}
               xs={12}
-              style={{ minHeight: 200, maxHeight: 300, overflow: "auto" }}
+              style={{ minHeight: 200, maxHeight: 300, overflow: "auto", backgroundColor: "background.card" }}
             >
               <TextField
                 fullWidth
                 multiline
-                minRows={4}
+                minRows={6}
                 // helperText="Notes"
                 label="Notes"
                 name="notes"
                 onChange={handleChange}
                 value={values.notes}
                 variant="outlined"
+                // sx={{border: "2px solid white"}}
               />
             </Grid>
           </Grid>

@@ -23,10 +23,15 @@ const defaultValues = {
   description: "",
   date: moment().format(), //'MM-DD-YYYY'
 };
+let firstLoad = 0;
 
 export default function Tasks(props) {
   const planStore = usePlanStore();
-  // planStore.getTasks();
+  if(firstLoad = 0){
+    planStore.getTasks();
+    console.log("Tksjdnf", planStore.tasks)
+    firstLoad = 1
+  }
   const [checked, setChecked] = React.useState([1]);
   const [tasks, setTasks] = React.useState();
   const [currentTask, setCurrentTask] = React.useState(defaultValues);
@@ -85,7 +90,7 @@ export default function Tasks(props) {
   });
 
   return (
-    <Card {...props} style={{ minHeight: 200 }}>
+    <Card {...props} style={{ minHeight: 400 }}>
       <Grid>
         <CardHeader title="Tasks" sx={{ paddingBottom: 0 }} />
         <Button />
